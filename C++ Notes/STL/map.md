@@ -1,1 +1,4 @@
-#map
+```
+int main(void){
+}
+```
