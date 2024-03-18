@@ -1,4 +1,4 @@
-### 数据结构  
+## 数据结构  
  <details><summary>2.线性表</summary>
   
 <a href = "/数据结构/2.线性表/2.1线性表的类型定义.md" target = "_blank">2.1线性表的类型定义</a>  
