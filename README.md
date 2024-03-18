@@ -1,6 +1,5 @@
 ## 数据结构  
-### 5.树
- <details>
+ <details><summary>**5.树**</summary>
 
 5.1  
 5.2  
