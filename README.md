@@ -1,7 +1,7 @@
 ## 数据结构  
  <details><summary>2.线性表</summary>
   
-<a href = "baidu.com" target = "_blank">百度</a>  
+<a href = "https://baidu.com" target = "_blank">百度</a>  
 <a href = "/数据结构/2.线性表/2.1线性表的类型定义.md" target = "_blank">2.1线性表的类型定义</a>  
 <a href = "/数据结构/2.线性表/2.2线性表的顺序表示和实现.md" target="_blank">2.2线性表的顺序表示和实现</a>  
 <a href = "/数据结构/2.线性表/2.3线性表的链式表示和实现.md" target="_blank">2.3线性表的链式表示和实现</a>  
