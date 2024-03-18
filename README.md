@@ -1,7 +1,7 @@
 ## 数据结构  
  <details><summary>5.树</summary>
 
-<a href = "/数据结构/5.树/5.1树和二叉树定义、特点.md">5.1树和二叉树定义、特点</a>
+<a href = "/数据结构/5.树/5.1.树和二叉树定义、特点.md">5.1树和二叉树定义、特点</a>  
 [5.2二叉树的性质](https://github.com/Minichiellon/MyNotes/blob/main/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/5.%E6%A0%91/5.2.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%80%A7%E8%B4%A8.md)  
 [5.3二叉树的存储结构](https://github.com/Minichiellon/MyNotes/blob/main/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/5.%E6%A0%91/5.3%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.md)  
 [5.4二叉树的遍历](https://github.com/Minichiellon/MyNotes/blob/main/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/5.%E6%A0%91/5.4%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86.md)  
