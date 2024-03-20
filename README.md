@@ -40,7 +40,7 @@
 　　<a href = "/数据结构/5.树/5.7树的存储结构.md" target = "_blank">5.7树的存储结构</a>  
 　　<a href = "/数据结构/5.树/5.8树、森林和二叉树的转换及树的遍历.md" target = "_blank">5.8树、森林和二叉树的转换及树的遍历</a>  
 　　<a href = "/数据结构/5.树/5.9哈夫曼树.md" target = "_blank">5.9哈夫曼树</a>  
-    <a href = "/数据结构/5.树/树的c语言实现" target = "_blank">树的c语言实现</a>  
+　　<a href = "/数据结构/5.树/树的c语言实现" target = "_blank">树的c语言实现</a>  
  </details>
  <details><summary>6.图</summary>
   
