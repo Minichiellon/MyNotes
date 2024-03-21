@@ -1,70 +1,74 @@
+#ifndef TREE_H
+#define TREE_H
+
 #define TRUE 1
 #define FALSE 0
 #define OK 1
-#define MAX_NODE_SIZE 20
+#define MAX_NODE_SIZE 50
 typedef enum { false = 0, true } bool;
 typedef char TElemType;
 
-//¶ş²æÊ÷½áµã½á¹¹
+//äºŒå‰æ ‘ç»“ç‚¹ç»“æ„
 typedef struct BiNode {
     TElemType data;
-    struct BiNode* lchild, * rchild; //×óÓÒº¢×ÓÖ¸Õë
+    struct BiNode* lchild, * rchild; //å·¦å³å­©å­æŒ‡é’ˆ
 }BiNode, * BiTree;
 /*
-//ÏßË÷¶ş²æÊ÷
+//çº¿ç´¢äºŒå‰æ ‘
 typedef struct BiThrNode {
     int data;
     int ltag, rtag;
     struct BiThrNode* lchild, rchild;
 }BiThrNode, * BiThrTree;
 
-//Ê÷µÄ´æ´¢----Ë«Ç×±íÊ¾·¨----½áµã½á¹¹
+//æ ‘çš„å­˜å‚¨----åŒäº²è¡¨ç¤ºæ³•----ç»“ç‚¹ç»“æ„
 typedef struct PTNode {
     TElemType data;
-    int parent;//Ë«Ç×Î»ÖÃÓò
+    int parent;//åŒäº²ä½ç½®åŸŸ
 } PTNode;
 
-//Ê÷µÄ´æ´¢----Ë«Ç×±íÊ¾·¨----Ê÷½á¹¹
+//æ ‘çš„å­˜å‚¨----åŒäº²è¡¨ç¤ºæ³•----æ ‘ç»“æ„
 #define MAX_TREE_SIZE 100
 typedef struct {
     PTNode nodes[MAX_TREE_SIZE];
-    int r, n;// ¸ù½áµãµÄÎ»ÖÃºÍ½áµã¸öÊı
+    int r, n;// æ ¹ç»“ç‚¹çš„ä½ç½®å’Œç»“ç‚¹ä¸ªæ•°
 } PTree;
 
-//Ê÷µÄ´æ´¢----º¢×ÓÁ´±í----º¢×Ó½áµã½á¹¹
+//æ ‘çš„å­˜å‚¨----å­©å­é“¾è¡¨----å­©å­ç»“ç‚¹ç»“æ„
 typedef struct CTNode {
     int child;
     struct CTNode* next;
 }*ChildPtr;
 
-//Ê÷µÄ´æ´¢----º¢×ÓÁ´±í----Ë«Ç×½áµã½á¹¹
+//æ ‘çš„å­˜å‚¨----å­©å­é“¾è¡¨----åŒäº²ç»“ç‚¹ç»“æ„
 typedef struct {
     TElemType data;
-    ChildPtr firstchild;// º¢×ÓÁ´±íÍ·Ö¸Õë
+    ChildPtr firstchild;// å­©å­é“¾è¡¨å¤´æŒ‡é’ˆ
 } CTBox;
 
-//Ê÷µÄ´æ´¢----º¢×ÓÁ´±í----Ê÷½á¹¹
+//æ ‘çš„å­˜å‚¨----å­©å­é“¾è¡¨----æ ‘ç»“æ„
 typedef struct {
     CTBox nodes[MAX_TREE_SIZE];
-    int n£¬r;//½áµãÊıºÍ¸ù½áµãµÄÎ»ÖÃ
+    int nï¼Œr;//ç»“ç‚¹æ•°å’Œæ ¹ç»“ç‚¹çš„ä½ç½®
 }CTree;
 
-//Ê÷µÄ´æ´¢----º¢×ÓĞÖµÜ±íÊ¾·¨----Ê÷½á¹¹
+//æ ‘çš„å­˜å‚¨----å­©å­å…„å¼Ÿè¡¨ç¤ºæ³•----æ ‘ç»“æ„
 typedef struct CSNode {
     TElemType data;
     struct CSNode* firstchild, * nextsibling;
 }CSNode, * CSTree;
 
-//¹ş·òÂüÊ÷½á¹¹
+//å“ˆå¤«æ›¼æ ‘ç»“æ„
 typedef struct {
     int weight;
     int parent, lch, rch;
 }HTNode, * HuffmanTree;
 */
 BiTree CreateBiTree();
-bool PreOrderTraverse(const BiTree T);
-bool InOrderTraverse(const BiTree T);
-bool PostOrderTraverse(const BiTree T);
+void PreOrderTraverse(const BiTree T);
+void InOrderTraverse(const BiTree T);
+void PostOrderTraverse(const BiTree T);
+void visit(BiTree T);
 /*
 void LevelOrder(const BiTree* T);
 int Copy(BiTree T, BiTree* NewT);
@@ -74,3 +78,4 @@ int LeafCount(BiTree T);
 void CreatHuffmanTree(HuffmanTree HT, int n);
 void CreatHuffmanCode(HuffmanTree HT, HuffmanCode& HC, int n);
 */
+#endif
