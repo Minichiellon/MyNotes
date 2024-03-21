@@ -1,27 +1,26 @@
 #include "tree.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stdio.h>      //printf、scanf、NULL
+#include <stdlib.h>     //malloc
 BiTree CreateBiTree() {
     static int count = -1;
     count++;
     BiTree T = NULL;
     static char ch[MAX_NODE_SIZE] = "\0";
+
     if(count == 0){
-        printf("Enter the sequence of the data, \"#\" means null\n");
-        scanf("%49[^\n]s", ch);//ch = getchar();
+        printf("Enter the sequence of the data, \"#\" means null, Enter to end\n");
+        scanf("%49[^\n]s", ch);
     }
-    //if (ch[count] != '\n'){
-        if (ch[count] == '#')
-            return T;
-        else {
-            if (!(T = (BiNode*)malloc(sizeof(BiNode)))) //内存申请失败
-                return NULL;//T=new BiTNode
-            T->data = ch[count];  // 生成根结点
-            T->lchild = CreateBiTree();//构造左子树
-            T->rchild = CreateBiTree();//构造右子树
-        }
-    //}
+
+    if (ch[count] == '#')
+        return T;
+    else {
+        if (!(T = (BiNode*)malloc(sizeof(BiNode)))) //内存申请失败
+            return NULL;//T=new BiTNode
+        T->data = ch[count];  // 生成根结点
+        T->lchild = CreateBiTree();//构造左子树
+        T->rchild = CreateBiTree();//构造右子树
+    }
     return T;
 } // CreateBiTree
 
@@ -70,43 +69,50 @@ void LevelOrder(const BiTree* T) {
         if (p->rchild != NULL) enQueue(qu, p->rchild);//有右孩子时将其进队
     }
 }
-
-int Copy(BiTree T, BiTree* NewT) {
+*/
+BiTree Copy(const BiTree T) {
+    BiTree NewT = NULL;
     if (T == NULL) { //如果是空树返回0
-        New T = NULL;
-        return 0;
-    else {
-        NewT = new BiTNode;
-        NewT->data = T->data;
-        Copy(T->lChild, NewT->lchild);
-        Copy(T->rChild, NewT->rchild);
+        return NewT;
     }
+    else{
+        NewT = (BiNode*)malloc(sizeof(BiNode));
+        NewT->data = T->data;
+        NewT->lchild = Copy(T->lchild);
+        NewT->rchild = Copy(T->rchild);
+    }
+    return NewT;
 }
 
-int Depth(BiTree T) {
+int Depth(const BiTree T) {
+    int m,n;
     if (T == NULL) return 0;//如果是空树返回0
     else {
-        m = Depth(T->IChild);
-        n = Depth(T->rChild);
-        if (m > n) return(m + 1);
-        else return(n + 1);
+        m = Depth(T->lchild);
+        n = Depth(T->rchild);
     }
+    if (m > n) return (m + 1);
+    return (n + 1);
 }
 
-int NodeCount(BiTree T) {
+int NodeCount(const BiTree T) {
     if (T == NULL)
         return 0;
     else
         return NodeCount(T->lchild) + NodeCount(T->rchild) + 1;
 }
-int LeafCount(BiTree T) {//如果是空树返回0
+
+int LeafCount(const BiTree T) {//如果是空树返回0
     if (T == NULL) return 0;
     if (T->lchild == NULL && T->rchild == NULL)//如果是叶子结点返回1
         return 1;
     else
         return LeafCount(T->lchild) + LeafCount(T->rchild);
 }
+BiThrTree BiTree2BiThrTree(const BiTree T){
 
+}
+/*
 void CreatHuffmanTree(HuffmanTree HT, int n) { //构造哈夫曼树--哈夫曼算法
     if (n <= 1) return;
     m = 2 * n - 1;//数组共2n-1个元素
