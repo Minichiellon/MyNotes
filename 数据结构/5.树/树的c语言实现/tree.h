@@ -13,14 +13,14 @@ typedef struct BiNode {
     TElemType data;
     struct BiNode* lchild, * rchild; //左右孩子指针
 }BiNode, * BiTree;
-/*
+
 //线索二叉树
 typedef struct BiThrNode {
     int data;
     int ltag, rtag;
-    struct BiThrNode* lchild, rchild;
+    struct BiThrNode* lchild, * rchild;
 }BiThrNode, * BiThrTree;
-
+/*
 //树的存储----双亲表示法----结点结构
 typedef struct PTNode {
     TElemType data;
@@ -71,10 +71,13 @@ void PostOrderTraverse(const BiTree T);
 void visit(BiTree T);
 /*
 void LevelOrder(const BiTree* T);
-int Copy(BiTree T, BiTree* NewT);
-int Depth(BiTree T);
-int NodeCount(BiTree T);
-int LeafCount(BiTree T);
+*/
+BiTree Copy(const BiTree T);
+int Depth(const BiTree T);
+int NodeCount(const BiTree T);
+int LeafCount(const BiTree T);
+BiThrTree BiTree2BiThrTree(const BiTree T);
+/*
 void CreatHuffmanTree(HuffmanTree HT, int n);
 void CreatHuffmanCode(HuffmanTree HT, HuffmanCode& HC, int n);
 */
