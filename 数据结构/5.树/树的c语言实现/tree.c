@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 BiTree CreateBiTree() {
-    static int count = 0;
+    static int count = -1;
+    count++;
     BiTree T = NULL;
     static char ch[MAX_NODE_SIZE] = "\0";
     if(count == 0){
@@ -17,9 +18,7 @@ BiTree CreateBiTree() {
             if (!(T = (BiNode*)malloc(sizeof(BiNode)))) //内存申请失败
                 return NULL;//T=new BiTNode
             T->data = ch[count];  // 生成根结点
-            count++;
             T->lchild = CreateBiTree();//构造左子树
-            count++;
             T->rchild = CreateBiTree();//构造右子树
         }
     //}
