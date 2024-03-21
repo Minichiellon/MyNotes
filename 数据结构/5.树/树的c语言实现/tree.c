@@ -2,75 +2,78 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-void visit(BiTree T) {
-    printf("%c", T->data);
-}
-
 BiTree CreateBiTree() {
     static int count = 0;
     BiTree T = NULL;
     static char ch[MAX_NODE_SIZE] = "\0";
     if(count == 0){
         printf("Enter the sequence of the data, \"#\" means null\n");
-        scanf_s("%s", ch, MAX_NODE_SIZE);//ch = getchar();
+        scanf("%49[^\n]s", ch);//ch = getchar();
     }
-    if (ch[count] != '\n'){
+    //if (ch[count] != '\n'){
         if (ch[count] == '#')
-            return NULL;
+            return T;
         else {
-            if (!(T = (BiNode*)malloc(sizeof(BiNode)))) //ÄÚ´æÉêÇëÊ§°Ü
+            if (!(T = (BiNode*)malloc(sizeof(BiNode)))) //å†…å­˜ç”³è¯·å¤±è´¥
                 return NULL;//T=new BiTNode
-            T->data = ch[count];  // Éú³É¸ù½áµã
+            T->data = ch[count];  // ç”Ÿæˆæ ¹ç»“ç‚¹
             count++;
-            T->lchild = CreateBiTree();//¹¹Ôì×ó×ÓÊ÷
-            T->rchild = CreateBiTree();//¹¹ÔìÓÒ×ÓÊ÷
+            T->lchild = CreateBiTree();//æ„é€ å·¦å­æ ‘
+            count++;
+            T->rchild = CreateBiTree();//æ„é€ å³å­æ ‘
         }
-    }
+    //}
     return T;
 } // CreateBiTree
 
-bool PreOrderTraverse(BiTree T) {
-    if (!T) return OK; //¿Õ¶ş²æÊ÷
+void PreOrderTraverse(BiTree T) {
+    if (!T) return; //ç©ºäºŒå‰æ ‘
     else {
-        visit(T); //·ÃÎÊ¸ù½áµã
-        PreOrderTraverse(T->lchild);//µİ¹é±éÀú×ó×ÓÊ÷
-        PreOrderTraverse(T->rchild);//µİ¹é±éÀúÓÒ×ÓÊ÷
+        visit(T); //è®¿é—®æ ¹ç»“ç‚¹
+        PreOrderTraverse(T->lchild);//é€’å½’éå†å·¦å­æ ‘
+        PreOrderTraverse(T->rchild);//é€’å½’éå†å³å­æ ‘
     }
+    return;
 }
 
-bool InOrderTraverse(BiTree T) {
-    if (!T) return OK; //¿Õ¶ş²æÊ÷
+void InOrderTraverse(BiTree T) {
+    if (!T) return; //ç©ºäºŒå‰æ ‘
     else {
-        InOrderTraverse(T->lchild);//µİ¹é±éÀú×ó×ÓÊ÷
-        visit(T); //·ÃÎÊ¸ù½áµã
-        InOrderTraverse(T->rchild);//µİ¹é±éÀúÓÒ×ÓÊ÷
+        InOrderTraverse(T->lchild);//é€’å½’éå†å·¦å­æ ‘
+        visit(T); //è®¿é—®æ ¹ç»“ç‚¹
+        InOrderTraverse(T->rchild);//é€’å½’éå†å³å­æ ‘
     }
+    return;
 }
 
-bool PostOrderTraverse(BiTree T) {
-    if (!T) return OK; //¿Õ¶ş²æÊ÷
+void PostOrderTraverse(BiTree T) {
+    if (!T) return; //ç©ºäºŒå‰æ ‘
     else {
-        PostOrderTraverse(T->lchild);//µİ¹é±éÀú×ó×ÓÊ÷
-        PostOrderTraverse(T->rchild);//µİ¹é±éÀúÓÒ×ÓÊ÷
-        visit(T);//·ÃÎÊ¸ù½áµã
+        PostOrderTraverse(T->lchild);//é€’å½’éå†å·¦å­æ ‘
+        PostOrderTraverse(T->rchild);//é€’å½’éå†å³å­æ ‘
+        visit(T);//è®¿é—®æ ¹ç»“ç‚¹
     }
+    return;
+}
+void visit(BiTree T) {
+    printf("%c", T->data);
 }
 /*
 void LevelOrder(const BiTree* T) {
     BTNode* p;
-    SqQueue* qu;//³õÊ¼»¯¶ÓÁĞ
-    InitQueue(qu);//¸ù½áµãÖ¸Õë½øÈë¶ÓÁĞ
+    SqQueue* qu;//åˆå§‹åŒ–é˜Ÿåˆ—
+    InitQueue(qu);//æ ¹ç»“ç‚¹æŒ‡é’ˆè¿›å…¥é˜Ÿåˆ—
     enQueue(qu, T);
-    while (!QueueEmpty(qu)) {//¶Ó²»Îª¿Õ£¬ÔòÑ­»·
-        deQueue(qu, p);//³ö¶Ó½áµãp
-        printf("%c", p->data);//·ÃÎÊ½áµãp
-        if (p->lchild != NULL) enQueue(qu, p->lchild);//ÓĞ×óº¢×ÓÊ±½«Æä½ø¶Ó
-        if (p->rchild != NULL) enQueue(qu, p->rchild);//ÓĞÓÒº¢×ÓÊ±½«Æä½ø¶Ó
+    while (!QueueEmpty(qu)) {//é˜Ÿä¸ä¸ºç©ºï¼Œåˆ™å¾ªç¯
+        deQueue(qu, p);//å‡ºé˜Ÿç»“ç‚¹p
+        printf("%c", p->data);//è®¿é—®ç»“ç‚¹p
+        if (p->lchild != NULL) enQueue(qu, p->lchild);//æœ‰å·¦å­©å­æ—¶å°†å…¶è¿›é˜Ÿ
+        if (p->rchild != NULL) enQueue(qu, p->rchild);//æœ‰å³å­©å­æ—¶å°†å…¶è¿›é˜Ÿ
     }
 }
 
 int Copy(BiTree T, BiTree* NewT) {
-    if (T == NULL) { //Èç¹ûÊÇ¿ÕÊ÷·µ»Ø0
+    if (T == NULL) { //å¦‚æœæ˜¯ç©ºæ ‘è¿”å›0
         New T = NULL;
         return 0;
     else {
@@ -82,7 +85,7 @@ int Copy(BiTree T, BiTree* NewT) {
 }
 
 int Depth(BiTree T) {
-    if (T == NULL) return 0;//Èç¹ûÊÇ¿ÕÊ÷·µ»Ø0
+    if (T == NULL) return 0;//å¦‚æœæ˜¯ç©ºæ ‘è¿”å›0
     else {
         m = Depth(T->IChild);
         n = Depth(T->rChild);
@@ -97,50 +100,50 @@ int NodeCount(BiTree T) {
     else
         return NodeCount(T->lchild) + NodeCount(T->rchild) + 1;
 }
-int LeafCount(BiTree T) {//Èç¹ûÊÇ¿ÕÊ÷·µ»Ø0
+int LeafCount(BiTree T) {//å¦‚æœæ˜¯ç©ºæ ‘è¿”å›0
     if (T == NULL) return 0;
-    if (T->lchild == NULL && T->rchild == NULL)//Èç¹ûÊÇÒ¶×Ó½áµã·µ»Ø1
+    if (T->lchild == NULL && T->rchild == NULL)//å¦‚æœæ˜¯å¶å­ç»“ç‚¹è¿”å›1
         return 1;
     else
         return LeafCount(T->lchild) + LeafCount(T->rchild);
 }
 
-void CreatHuffmanTree(HuffmanTree HT, int n) { //¹¹Ôì¹ş·òÂüÊ÷--¹ş·òÂüËã·¨
+void CreatHuffmanTree(HuffmanTree HT, int n) { //æ„é€ å“ˆå¤«æ›¼æ ‘--å“ˆå¤«æ›¼ç®—æ³•
     if (n <= 1) return;
-    m = 2 * n - 1;//Êı×é¹²2n-1¸öÔªËØ
-    HT = new HTNode[m + 1]; //0ºÅµ¥ÔªÎ´ÓÃ£¬HT[m]±íÊ¾¸ù½áµã
-    for (i = 1; i <= m; ++i) { //½«2n-1¸öÔªËØµÄlch¡¢rch¡¢parentÖÃÎª0
+    m = 2 * n - 1;//æ•°ç»„å…±2n-1ä¸ªå…ƒç´ 
+    HT = new HTNode[m + 1]; //0å·å•å…ƒæœªç”¨ï¼ŒHT[m]è¡¨ç¤ºæ ¹ç»“ç‚¹
+    for (i = 1; i <= m; ++i) { //å°†2n-1ä¸ªå…ƒç´ çš„lchã€rchã€parentç½®ä¸º0
         HT[il.lch = 0;
         HT[i].rch = 0;
         HT[i].parent = 0;
     }
-    for (i = 1; i <= n; ++i) cin >> HT[i].weight; //ÊäÈëÇ°n¸öÔªËØµÄweightÖµ
-    //³õÊ¼»¯½áÊø£¬ÏÂÃæ¿ªÊ¼½¨Á¢¹ş·òÂüÊ÷
-    for (i = n + 1; i <= m; i++) {  //ºÏ²¢²úÉún-1¸ö½áµã--¹¹ÔìHuffmanÊ÷
-        Select(HT, i - 1, s1, s2); //ÔÚHT[k](1¡Ük¡Üi-1)ÖĞÑ¡ÔñÁ½¸öÆäË«Ç×ÓòÎª0
-        //ÇÒÈ¨Öµ×îĞ¡µÄ½áµã,²¢·µ»ØËüÃÇÔÚHTÖĞµÄĞòºÅs1ºÍs2
-        HT[s1].parent = i;  HT[s2].parent = i;  //±íÊ¾´ÓFÖĞÉ¾³ıs1,s2
-        HT[i].lch = s1;     HT[i].rch = s2;    //s1,s2·Ö±ğ×÷ÎªiµÄ×óÓÒº¢×Ó
-        HT[i].weight = HT[s1].weight + HT[s2].weight; //iµÄÈ¨ÖµÎª×óÓÒº¢×ÓÈ¨ÖµÖ®ºÍ
+    for (i = 1; i <= n; ++i) cin >> HT[i].weight; //è¾“å…¥å‰nä¸ªå…ƒç´ çš„weightå€¼
+    //åˆå§‹åŒ–ç»“æŸï¼Œä¸‹é¢å¼€å§‹å»ºç«‹å“ˆå¤«æ›¼æ ‘
+    for (i = n + 1; i <= m; i++) {  //åˆå¹¶äº§ç”Ÿn-1ä¸ªç»“ç‚¹--æ„é€ Huffmanæ ‘
+        Select(HT, i - 1, s1, s2); //åœ¨HT[k](1â‰¤kâ‰¤i-1)ä¸­é€‰æ‹©ä¸¤ä¸ªå…¶åŒäº²åŸŸä¸º0
+        //ä¸”æƒå€¼æœ€å°çš„ç»“ç‚¹,å¹¶è¿”å›å®ƒä»¬åœ¨HTä¸­çš„åºå·s1å’Œs2
+        HT[s1].parent = i;  HT[s2].parent = i;  //è¡¨ç¤ºä»Fä¸­åˆ é™¤s1,s2
+        HT[i].lch = s1;     HT[i].rch = s2;    //s1,s2åˆ†åˆ«ä½œä¸ºiçš„å·¦å³å­©å­
+        HT[i].weight = HT[s1].weight + HT[s2].weight; //içš„æƒå€¼ä¸ºå·¦å³å­©å­æƒå€¼ä¹‹å’Œ
     }
 }
 
 void CreatHuffmanCode(HuffmanTree HT, HuffmanCode& HC, int n) {
-    //´ÓÒ¶×Óµ½¸ùÄæÏòÇóÃ¿¸ö×Ö·ûµÄ¹ş·òÂü±àÂë£¬´æ´¢ÔÚ±àÂë±íHCÖĞ
-    HC = new char* [n + 1];    //·ÖÅän¸ö×Ö·û±àÂëµÄÍ·Ö¸ÕëÊ¸Á¿
-    cd = new char[n];       //·ÖÅäÁÙÊ±´æ·Å±àÂëµÄ¶¯Ì¬Êı×é¿Õ¼ä
-    cd[n - 1] = '\0';          //±àÂë½áÊø·û
-    for (i = 1; i <= n; ++i) {     //Öğ¸ö×Ö·ûÇó¹ş·òÂü±àÂë
+    //ä»å¶å­åˆ°æ ¹é€†å‘æ±‚æ¯ä¸ªå­—ç¬¦çš„å“ˆå¤«æ›¼ç¼–ç ï¼Œå­˜å‚¨åœ¨ç¼–ç è¡¨HCä¸­
+    HC = new char* [n + 1];    //åˆ†é…nä¸ªå­—ç¬¦ç¼–ç çš„å¤´æŒ‡é’ˆçŸ¢é‡
+    cd = new char[n];       //åˆ†é…ä¸´æ—¶å­˜æ”¾ç¼–ç çš„åŠ¨æ€æ•°ç»„ç©ºé—´
+    cd[n - 1] = '\0';          //ç¼–ç ç»“æŸç¬¦
+    for (i = 1; i <= n; ++i) {     //é€ä¸ªå­—ç¬¦æ±‚å“ˆå¤«æ›¼ç¼–ç 
         start = n - 1; c = i; f = HT[i].parent;
-        while (f != 0) {    //´ÓÒ¶×Ó½áµã¿ªÊ¼ÏòÉÏ»ØËİ£¬Ö±µ½¸ù½áµã
-            --start;      //»ØËİÒ»´ÎstartÏòÇ°Ö¸Ò»¸öÎ»ÖÃ
-            if (HT[f].lchild == c) cd[start] = '0';    //½áµãcÊÇfµÄ×óº¢×Ó£¬ÔòÉú³É´úÂë0
-            else                  cd[start] = '1';    //½áµãcÊÇfµÄÓÒº¢×Ó£¬ÔòÉú³É´úÂë1
-            c = f; f = HT[f].parent;    //¼ÌĞøÏòÉÏ»ØËİ
-        }                               //Çó³öµÚi¸ö×Ö·ûµÄ±àÂë
-        HC[i] = new char[n - start];     // ÎªµÚi ¸ö×Ö·û´®±àÂë·ÖÅä¿Õ¼ä
-        strcpy(HC[i], &cd[start]);      //½«ÇóµÃµÄ±àÂë´ÓÁÙÊ±¿Õ¼äcd¸´ÖÆµ½HCµÄµ±Ç°ĞĞÖĞ
-        delete cd;    //ÊÍ·ÅÁÙÊ±¿Õ¼ä
+        while (f != 0) {    //ä»å¶å­ç»“ç‚¹å¼€å§‹å‘ä¸Šå›æº¯ï¼Œç›´åˆ°æ ¹ç»“ç‚¹
+            --start;      //å›æº¯ä¸€æ¬¡startå‘å‰æŒ‡ä¸€ä¸ªä½ç½®
+            if (HT[f].lchild == c) cd[start] = '0';    //ç»“ç‚¹cæ˜¯fçš„å·¦å­©å­ï¼Œåˆ™ç”Ÿæˆä»£ç 0
+            else                  cd[start] = '1';    //ç»“ç‚¹cæ˜¯fçš„å³å­©å­ï¼Œåˆ™ç”Ÿæˆä»£ç 1
+            c = f; f = HT[f].parent;    //ç»§ç»­å‘ä¸Šå›æº¯
+        }                               //æ±‚å‡ºç¬¬iä¸ªå­—ç¬¦çš„ç¼–ç 
+        HC[i] = new char[n - start];     // ä¸ºç¬¬i ä¸ªå­—ç¬¦ä¸²ç¼–ç åˆ†é…ç©ºé—´
+        strcpy(HC[i], &cd[start]);      //å°†æ±‚å¾—çš„ç¼–ç ä»ä¸´æ—¶ç©ºé—´cdå¤åˆ¶åˆ°HCçš„å½“å‰è¡Œä¸­
+        delete cd;    //é‡Šæ”¾ä¸´æ—¶ç©ºé—´
     }
 }// CreatHuffanCode
 */
