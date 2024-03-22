@@ -18,7 +18,7 @@
 　　<a href = "/数据结构/3.栈和队列/3.4栈和递归.md" target = "_blank">3.4栈和递归</a>    
 　　<a href = "/数据结构/3.栈和队列/3.5队列的顺序表示和实现.md" target = "_blank">3.5队列的顺序表示和实现</a>  
 　　<a href = "/数据结构/3.栈和队列/3.6队列的链式表示和实现.md" target = "_blank">3.6队列的链式表示和实现</a>  
- 　　<a href = "/数据结构/3.栈和队列/队列的C语言实现" target = "_blank">队列的C语言实现</a>  
+ 　　<a href = "/数据结构/3.栈和队列/队列的ｃ语言实现" target = "_blank">队列的C语言实现</a>  
  </details>
  <details><summary>4.串、数组和广义表</summary>
   
