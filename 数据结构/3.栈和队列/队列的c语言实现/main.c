@@ -27,11 +27,11 @@ int main(void){
     printQueue(qu);
     printf("\n");
 
-    DeQueue(qu,&mem[0]);
+    DeQueue(qu);
     printQueue(qu);
     printf("\n");
 
-    DeQueue(qu,&mem[1]);
+    DeQueue(qu);
     printQueue(qu);
     printf("\n");
 
