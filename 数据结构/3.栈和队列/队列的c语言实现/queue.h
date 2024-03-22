@@ -1,6 +1,6 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-#define MAXQSIZE 3
+#define MAXQSIZE 50
 #define OK 1
 #define ERROR 0
 #define CONST_0 0
