@@ -30,13 +30,12 @@ bool EnQueue(SqQueue *Q, QElemType e){
     return OK;
 }
 //出队
-bool DeQueue(SqQueue *Q,QElemType *e){
+DeQueue(SqQueue *Q){
     if(IsQueueEmpty(Q)){
         printf("the queue is already empty,DeQueue failed!\n");
         return ERROR;//队空
     }
-    *e = Q->base[Q->front];    //保存队头元素
-    Q->front = (Q->front+1) % MAXQSIZE;    //队头指针+1
+    Q->front = (Q->front + 1) % MAXQSIZE;    //队头指针+1
     Q->QueueSize--;
     return OK;
 }
