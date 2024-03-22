@@ -6,7 +6,7 @@
 bool InitQueue(SqQueue* Q){
     Q->base = (QElemType*)malloc(MAXQSIZE*sizeof(QElemType));//分配数组空间
     if(!Q->base) {
-        printf("Sorry!There is no memory!!!");
+        //printf("Sorry!There is no memory!!!");
         return ERROR;//存储分配失败
     }
     Q->front = Q->rear = 0;//头指针尾指针置为0，队列为空
@@ -21,7 +21,7 @@ int QueueLength(const SqQueue* Q){
 //入队
 bool EnQueue(SqQueue *Q, QElemType e){
     if(IsQueueFull(Q)){
-        printf("the queue is already full,EnQueue failed!\n");
+        //printf("the queue is already full,EnQueue failed!\n");
         return ERROR; //队满
     }
     Q->base[Q->rear] = e;    //新元素加入队尾
@@ -30,9 +30,9 @@ bool EnQueue(SqQueue *Q, QElemType e){
     return OK;
 }
 //出队
-DeQueue(SqQueue *Q){
+bool DeQueue(SqQueue *Q){
     if(IsQueueEmpty(Q)){
-        printf("the queue is already empty,DeQueue failed!\n");
+        //printf("the queue is already empty,DeQueue failed!\n");
         return ERROR;//队空
     }
     Q->front = (Q->front + 1) % MAXQSIZE;    //队头指针+1
@@ -41,9 +41,10 @@ DeQueue(SqQueue *Q){
 }
 //获取首元素
 QElemType GetHead(const SqQueue* Q){
-    if(Q->front!=Q->rear)//队列不为空
-        return Q->base[Q->front];//返回队头指针元素的值，队头指针不变
-    return '\0';
+    if(Q->QueueSize == CONST_0)//队列不为空
+        return '\0';
+    return Q->base[Q->front];//返回队头指针元素的值，队头指针不变
+    
 }
 //返回队列是否为空标志
 bool IsQueueEmpty(const SqQueue* Q){
@@ -53,20 +54,22 @@ bool IsQueueEmpty(const SqQueue* Q){
 bool IsQueueFull(const SqQueue* Q){
     return Q->QueueSize == MAXQSIZE?true:false;
 }
-
+//清空队列
 bool ClearQueue(SqQueue* qu){
+    if(qu == NULL || IsQueueEmpty(qu)) return ERROR;
     qu->QueueSize = 0;
     qu->front = qu->rear = 0;
     free(qu->base);
     return OK;
 }
+//打印队列
 void printQueue(const SqQueue* Q){
     int ptr = 0;
     if(Q->QueueSize == CONST_0){
         printf("the queue is empty!\n");
     }
     while(ptr != Q->QueueSize){
-        printf("%c",Q->base[Q->front+ptr]);
+        printf("%c",Q->base[(Q->front+ptr + MAXQSIZE)%MAXQSIZE]);   //因为是循环队列
         ptr++;
     }
 }
