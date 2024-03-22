@@ -1,5 +1,6 @@
 #ifndef QUEUE_H
 #define QUEUE_H
+
 #define MAXQSIZE 50
 #define OK 1
 #define ERROR 0
@@ -14,7 +15,7 @@ typedef struct {
 }SqQueue;
 bool InitQueue(SqQueue*);
 bool EnQueue(SqQueue *Q, QElemType e);
-bool DeQueue(SqQueue *Q,QElemType *e);
+bool DeQueue(SqQueue *Q);
 int QueueLength(const SqQueue* Q);
 QElemType GetHead(const SqQueue* Q);
 bool IsQueueEmpty(const SqQueue* Q);
