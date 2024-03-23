@@ -79,3 +79,43 @@
     
 　　<a href = "/Leetcode刷题/2.链表/.md" target = "_blank"></a>  
  </details>
+<details><summary>3.哈希表</summary>
+    
+　　<a href = "/Leetcode刷题/3.哈希表/.md" target = "_blank"></a>  
+ </details>
+ <details><summary>4.字符串</summary>
+    
+　　<a href = "/Leetcode刷题/4.字符串/.md" target = "_blank"></a>  
+ </details>
+ <details><summary>5.双指针法</summary>
+    
+　　<a href = "/Leetcode刷题/5.双指针法/.md" target = "_blank"></a>  
+ </details>
+ <details><summary>6.栈与队列</summary>
+    
+　　<a href = "/Leetcode刷题/6.栈与队列/.md" target = "_blank"></a>  
+ </details>
+ <details><summary>7.二叉树</summary>
+    
+　　<a href = "/Leetcode刷题/7.二叉树/.md" target = "_blank"></a>  
+ </details>
+ <details><summary>8.回溯算法</summary>
+    
+　　<a href = "/Leetcode刷题/8.回溯算法/.md" target = "_blank"></a>  
+ </details>
+ <details><summary>9.贪心算法</summary>
+    
+　　<a href = "/Leetcode刷题/9.贪心算法/.md" target = "_blank"></a>  
+ </details>
+  <details><summary>10.动态规划</summary>
+    
+　　<a href = "/Leetcode刷题/10.动态规划/.md" target = "_blank"></a>  
+ </details>
+  <details><summary>11.单调栈</summary>
+    
+　　<a href = "/Leetcode刷题/11.单调栈/.md" target = "_blank"></a>  
+ </details>
+  <details><summary>12.图论</summary>
+    
+　　<a href = "/Leetcode刷题/12.图论/.md" target = "_blank"></a>  
+ </details>
