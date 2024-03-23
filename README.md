@@ -71,8 +71,11 @@
  </details>
  
 ## LeetCode刷题  
-</details>
   <details><summary>1.数组</summary>
     
 　　<a href = "/Leetcode刷题/1.数组/704.二分查找.md" target = "_blank">704.二分查找</a>  
+ </details>
+<details><summary>2.链表</summary>
+    
+　　<a href = "/Leetcode刷题/2.链表/.md" target = "_blank"></a>  
  </details>
