@@ -3,8 +3,12 @@
 #include <stdio.h>      //printf、scanf、NULL
 #include <stdlib.h>     //malloc
 BiTree CreateBiTree() {
-    static int count = -1;
+    static int count = -1;    //输入序列计数及序列下标
+    static int LeafIsAssignVal = 0;    //是否所有叶子结点都被赋值？如果输入一个正确的先序序列，则所有结点的左右孩子均有值(包括NULL)
+    static int DecursiveDepth = 0;    //递归深度
+    
     count++;
+    DecursiveDepth++;
     BiTree T = NULL;
     static char ch[MAX_NODE_SIZE] = "\0";
 
@@ -18,9 +22,20 @@ BiTree CreateBiTree() {
     else {
         if (!(T = (BiNode*)malloc(sizeof(BiNode)))) //内存申请失败
             return NULL;//T=new BiTNode
+        LeafIsAssignVal += 2;    //每申请一个结点，其左右孩子未赋值，LeafIsAssignVal +2
         T->data = ch[count];  // 生成根结点
+        
         T->lchild = CreateBiTree();//构造左子树
+        if(T->lchild || T->lchild == NULL) LeafIsAssignVal--;
+        
         T->rchild = CreateBiTree();//构造右子树
+        if(T->rchild || T->rchild == NULL) LeafIsAssignVal--;
+    }
+    
+    DecursiveDepth --;
+    if(DecursiveDepth == 1 && LeafIsAssignVal != 0){
+        printf("You've entered an incorrect sequence!");
+        return NULL;
     }
     return T;
 } // CreateBiTree
