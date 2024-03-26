@@ -14,7 +14,7 @@
   
 　　<a href = "/数据结构/3.栈和队列/3.1栈和队列的定义、特点和抽象数据类型.md" target = "_blank">3.1栈的定义、特点和抽象数据类型</a>  
 　　<a href = "/数据结构/3.栈和队列/3.2栈的表示和实现.md" target = "_blank">3.2栈的表示和实现</a>  
-　　<a href = "/数据结构/3.栈和队列/3.3栈的操作.md" target = "_blank">3.3栈的操作</a>  
+　　<a href = "/数据结构/3.栈和队列/3.3栈和递归.md" target = "_blank">3.3栈和递归</a>  
 　　<a href = "/数据结构/3.栈和队列/3.4队列的表示和实现.md" target = "_blank">3.4队列的表示和实现</a>     
  </details>
  <details><summary>4.串、数组和广义表</summary>
