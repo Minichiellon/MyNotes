@@ -94,7 +94,7 @@
  </details>
  <details><summary>7.二叉树</summary>
     
-　　<a href = "/Leetcode刷题/7.二叉树/(1)__144.二叉树的层序遍历.md" target = "_blank"></a>  
+　　<a href = "/Leetcode刷题/7.二叉树/(1)__144.二叉树的前序遍历.md" target = "_blank"></a>  
   <a href = "/Leetcode刷题/7.二叉树/(2)__102.二叉树的层序遍历.md" target = "_blank"></a>
  </details>
  <details><summary>8.回溯算法</summary>
