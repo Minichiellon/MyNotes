@@ -19,12 +19,10 @@
  </details>
  <details><summary>4.串、数组和广义表</summary>
   
-　　<a href = "/数据结构/4.串、数组和广义表/4.1串的定义、存储结构.md" target = "_blank">4.1串的定义、存储结构</a>  
-　　<a href = "/数据结构/4.串、数组和广义表/4.2串的匹配--BF算法.md" target = "_blank">4.2串的匹配--BF算法</a>  
-　　<a href = "/数据结构/4.串、数组和广义表/4.3串的匹配--KMP算法.md" target = "_blank">4.3串的匹配--KMP算法</a>  
-　　<a href = "/数据结构/4.串、数组和广义表/4.4数组的定义、特点和抽象类型定义.md" target = "_blank">4.4数组的定义、特点和抽象类型定义</a>  
-　　<a href = "/数据结构/4.串、数组和广义表/4.5数组的存储.md" target = "_blank">4.5数组的存储</a>  
-　　<a href = "/数据结构/4.串、数组和广义表/4.6广义表.md" target = "_blank">4.6广义表</a>  
+　　<a href = "/数据结构/4.串、数组和广义表/4.1串的匹配.md" target = "_blank">4.1串的匹配</a>  
+　　<a href = "/数据结构/4.串、数组和广义表/4.2数组的定义、特点和抽象类型定义.md" target = "_blank">4.2数组的定义、特点和抽象类型定义</a>  
+　　<a href = "/数据结构/4.串、数组和广义表/4.3数组的存储.md" target = "_blank">4.3数组的存储</a>  
+　　<a href = "/数据结构/4.串、数组和广义表/4.4广义表.md" target = "_blank">4.4广义表</a>  
  </details>
  <details><summary>5.树</summary>
   
