@@ -91,12 +91,16 @@
  </details>
  <details><summary>7.二叉树</summary>
     
-　　<a href = "/Leetcode刷题/7.二叉树/(1)__144.二叉树的前序遍历.md" target = "_blank">144.二叉树的前序遍历</a>  
-　　<a href = "/Leetcode刷题/7.二叉树/(2)__102.二叉树的层序遍历.md" target = "_blank">102.二叉树的层序遍历</a>  
-　　<a href = "/Leetcode刷题/7.二叉树/(3)__107. 二叉树的层序遍历 II.md" target = "_blank">107.二叉树的层序遍历||</a>  
-　　<a href = "/Leetcode刷题/7.二叉树/(4)__199. 二叉树的右视图.md" target = "_blank">199.二叉树的右视图</a>  
-　　<a href = "/Leetcode刷题/7.二叉树/(5)__637. 二叉树的层平均值.md" target = "_blank">637.二叉树的层平均值</a>  
-　　<a href = "/Leetcode刷题/7.二叉树/(6)__429. N 叉树的层序遍历.md" target = "_blank">429.N叉树的层序遍历</a>  
+　　<a href = "/Leetcode刷题/7.二叉树/(01)__144. 二叉树的前序遍历.md" target = "_blank">144. 二叉树的前序遍历</a>  
+　　<a href = "/Leetcode刷题/7.二叉树/(02)__102. 二叉树的层序遍历.md" target = "_blank">102. 二叉树的层序遍历</a>  
+　　<a href = "/Leetcode刷题/7.二叉树/(03)__107. 二叉树的层序遍历 II.md" target = "_blank">107. 二叉树的层序遍历||</a>  
+　　<a href = "/Leetcode刷题/7.二叉树/(04)__199. 二叉树的右视图.md" target = "_blank">199. 二叉树的右视图</a>  
+　　<a href = "/Leetcode刷题/7.二叉树/(05)__637. 二叉树的层平均值.md" target = "_blank">637. 二叉树的层平均值</a>  
+　　<a href = "/Leetcode刷题/7.二叉树/(06)__429. N 叉树的层序遍历.md" target = "_blank">429. N叉树的层序遍历</a>  
+  　<a href = "/Leetcode刷题/7.二叉树/(07)__515. 在每个树行中找最大值.md" target = "_blank">515. 在每个树行中找最大值</a>  
+　　<a href = "/Leetcode刷题/7.二叉树/(08)__116. 填充每个节点的下一个右侧节点指针.md" target = "_blank">116. 填充每个节点的下一个右侧节点指针</a>  
+　　<a href = "/Leetcode刷题/7.二叉树/(09)__111. 二叉树的最小深度.md" target = "_blank">111. 二叉树的最小深度</a>  
+　　<a href = "/Leetcode刷题/7.二叉树/(10)__226. 翻转二叉树.md" target = "_blank">226. 翻转二叉树</a> 
  </details>
  <details><summary>8.回溯算法</summary>
     
