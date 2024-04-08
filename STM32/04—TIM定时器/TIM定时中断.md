@@ -62,10 +62,109 @@ PCS预分频器、自动重装载寄存器、CNT计时器构成了最基本的�
 **高级定时器框图**  
 <div><img src = "./images/高级定时器框图.png"></div>  
 
+> **注意:** 框图中带黑色阴影的寄存器都带有缓冲机制(即类似下面影子寄存器的效果)。
+
 **定时中断基本结构**  
 <div><img src = "./images/定时中断基本结构.png"></div>  
 
 **预分频器时序**  
 <div><img src = "./images/预分频器时序.png"></div>  
 
->预分频缓冲器(或称影子寄存器)才是真正起作用的寄存器。  
+>预分频缓冲器(或称影子寄存器)才是真正起作用的寄存器。当在计数中途改变预分频控制寄存器的值时，频率并不会马上改变，而是等到本次计数结束，才将该值传递到影子寄存器，继而改变频率。  
+>计数器计数频率:CK_CNT = CK_PSC/(PSC+1)
+
+**计数器时序**  
+<div><img src = "./images/计数器时序.png"></div>  
+
+>计数达到自动重装载值时，计数器复位，产生更新事件，置位更新中断标志位，然后申请中断。
+> **注意：** 中断标志位需要手动清零。
+>计数器溢出频率: CK_CNT_OV = CK_CNT/(ARR + 1) = CK_PSC/(PSC + 1)/(ARR + 1)
+
+**软件配置**  
+
+根据定时中断基本结构，配置定时器可分为以下步骤：  
+1. 开启RCC时钟
+2. 选择时钟源(内部时钟的话可省略这步)
+3. 配置时基单元
+4. 使能中断
+5. 开启时钟
+
+**定时器定时中断代码**  
+main.c  
+```cpp
+#include "stm32f10x.h"                  // Device header
+#include "Timer.h"
+
+uint16_t Num;
+
+int main(void)
+{
+    OLED_Init();
+    Timer_Init();
+    
+    OLED_ShowString(1, 1, "Num:");
+    
+    while (1)
+    {
+        OLED_ShowNum(1, 5, Num, 5);
+        OLED_ShowNum(2,5,TIM_GetCounter(TIM2),5);
+    }
+}
+```
+Timer.h  
+```cpp
+#ifndef __TIMER_H
+#define __TIMER_H
+
+void Timer_Init(void);
+
+#endif
+```
+Timer.c  
+```cpp
+#include "stm32f10x.h"                  // Device header
+extern uint16_t Num;
+void Timer_Init(void)
+{
+    /*1.开启时钟*/
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    
+    /*2.选择时钟源*/
+    TIM_InternalClockConfig(TIM2);
+    
+    /*3.配置时基单元*/
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
+    TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+    TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_TimeBaseInitStructure.TIM_Period = 10000 - 1;
+    TIM_TimeBaseInitStructure.TIM_Prescaler = 7200 - 1;
+    TIM_TimeBaseInitStructure.TIM_RepetitionCounter = 0;
+    TIM_TimeBaseInit(TIM2, &TIM_TimeBaseInitStructure);
+    
+    /*在这里清除中断标志是因为刚上电时会进一次中断，导致Num从1开始计数*/
+    TIM_ClearFlag(TIM2, TIM_FLAG_Update);
+    TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
+    
+    /*4.配置中断*/
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    
+    NVIC_InitTypeDef NVIC_InitStructure;
+    NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_Init(&NVIC_InitStructure);
+    
+    /*开启时钟*/
+    TIM_Cmd(TIM2, ENABLE);
+}
+/*中断函数里执行Num++*/
+void TIM2_IRQHandler(void)
+{
+    if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
+    {
+        Num ++;
+        TIM_ClearITPendingBit(TIM2, TIM_IT_Update);    //清除中断标志
+    }
+}
+```
