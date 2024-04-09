@@ -155,7 +155,7 @@ void Timer_Init(void)
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
     NVIC_Init(&NVIC_InitStructure);
     
-    /*开启时钟*/
+    /*5.开启定时器*/
     TIM_Cmd(TIM2, ENABLE);
 }
 /*中断函数里执行Num++*/
