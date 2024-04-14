@@ -65,10 +65,18 @@ ${T}_ {CONV}$ = 1.5 + 12.5 = 14个ADC周期 = 1μs
 
 - 启动校准前， ADC必须处于关电状态超过至少两个ADC时钟周期
 
-### 5.8外围硬件电路  
+### 5.8 外围硬件电路  
 <div><img src = "./images/外围硬件电路.png"></div>  
 
-### 5.9 AD单通道单次非扫描代码
+### 5.9 软件配置
+根据ADC外设框图，配置ADC外设的步骤如下：  
+1. 开启ADC和相应GPIO时钟，配置预分频系数
+2. 配置GPIO为模拟输入
+3. 配置ADC规则组
+4. 配置ADC初始化结构体
+5. 开启ADC
+6. 校准
+### 5.10 AD单通道单次非扫描代码
 main.c  
 ```cpp
 #include "stm32f10x.h"                  // Device header
@@ -116,19 +124,23 @@ AD.c
 
 void AD_Init(void)
 {
+	/*1. 开启ADC和相应GPIO时钟，配置预分频系数*/
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 	
 	RCC_ADCCLKConfig(RCC_PCLK2_Div6);
-	
+
+	/*2. 配置GPIO为模拟输入*/
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	
+
+	/*3. 配置ADC规则组*/
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_55Cycles5);
-	
+
+	/*4. 配置ADC初始化结构体*/
 	ADC_InitTypeDef ADC_InitStructure;
 	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
 	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
@@ -137,9 +149,11 @@ void AD_Init(void)
 	ADC_InitStructure.ADC_ScanConvMode = DISABLE;
 	ADC_InitStructure.ADC_NbrOfChannel = 1;
 	ADC_Init(ADC1, &ADC_InitStructure);
-	
+
+	/*5. 开启ADC*/
 	ADC_Cmd(ADC1, ENABLE);
-	
+
+	/*6. 校准*/
 	ADC_ResetCalibration(ADC1);
 	while (ADC_GetResetCalibrationStatus(ADC1) == SET);
 	ADC_StartCalibration(ADC1);
