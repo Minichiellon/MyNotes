@@ -1,7 +1,7 @@
 #ifndef __SORT_H
 #define __SORT_H
 
-#define MAXSIZE 100
+#define MAXSIZE 100000
 typedef int DataType;
 
 typedef struct{
@@ -20,6 +20,7 @@ int Partition(array *ar, int low, int high);
 
 void SelectSort(array *ar);     //选择排序
 void HeapSort(array *ar);       //堆排序
+void HeapAdjust(array *ar, int NodeIndex, int size);
 
 void MergeSort(array *ar);      //归并排序
 
@@ -28,4 +29,5 @@ void BaseSort(array *ar);       //基数排序
 
 void printArray(array *ar);
 void GenerateArray(array *ar);
+void swap(DataType* a, DataType* b);
 #endif

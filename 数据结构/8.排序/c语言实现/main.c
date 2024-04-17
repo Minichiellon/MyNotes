@@ -4,23 +4,34 @@
 
 int main(void)
 {
+    char* SortMethod[] ={"InsertSort","BinarySort","ShellSort","BubbleSort","SelectSort","HeapSort","QuickSort"};
+
+    typedef void (*p_SortFun)();
+    p_SortFun p_fun[8] = {InsertSort,BinarySort,ShellSort,BubbleSort,SelectSort,HeapSort};
+
     clock_t t[9];
     array ar;
-    GenerateArray(&ar);
 
     printArray(&ar);
     printf("\n\n\n");
 
-    t[0] = clock();
-    //InsertSort(&ar);
-    //BinarySort(&ar);
-    //ShellSort(&ar);
-    //BubbleSort(&ar);
-    //QuickSort(&ar, 1, MAXSIZE);
-    SelectSort(&ar);
-    t[0] = clock() - t[0];
+    for(int i = 0 ; i < 6 ; ++i)
+    {
+        GenerateArray(&ar);
+        t[i] = clock();
+        p_fun[i](&ar);
+        t[i] = clock() - t[i];
+    }
+    
+    GenerateArray(&ar);
+    t[6] = clock();
+    QuickSort(&ar, 1, ar.size);
+    t[6] = clock() - t[6];
     printArray(&ar);
 
-    printf("%f seconds",((float)t[0])/CLOCKS_PER_SEC);
+    for(int i = 0 ; i < 7 ; ++i)
+    {
+        printf("%s:%f seconds\n",SortMethod[i],((float)t[i])/CLOCKS_PER_SEC);
+    }
     return 0;
 }
