@@ -1,8 +1,8 @@
 #include "sort.h"
-#include<time.h>
-#include<stdlib.h>
+#include<time.h>      //time
+#include<stdlib.h>    //malloc,free,srand,rand,RAND_MAX
 #include<stdio.h>
-#include<limits.h>
+#include<limits.h>    //INT_MAX
 
 void InsertSort(array *ar)
 {
