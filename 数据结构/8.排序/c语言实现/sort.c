@@ -176,9 +176,46 @@ void HeapAdjust(array *ar, int NodeIndex, int size)
     }
 }
 
-void MergeSort(array *ar)
+int min(int x, int y) {
+    return x < y ? x : y;
+}
+void MergeSort(array* ar)
 {
+    DataType* p_ar = &ar->data[1];
+    DataType* tmp = (DataType*)malloc(ar->size * sizeof(DataType));     //申请和ar的数组一样大的临时空间
 
+    for (int seg = 1; seg < ar->size; seg *= 2)
+    {
+        for (int start = 0; start < ar->size; start += seg + seg)
+        {
+            int low = start, mid = min(start + seg, ar->size), high = min(start + seg + seg, ar->size);
+            int k = low;
+            int start1 = low, end1 = mid;       //分段一的开始结束位置
+            int start2 = mid, end2 = high;      //分段二的开始结束位置
+
+            while (start1 < end1 && start2 < end2)  //将分段一和分段二当前start指针指向的较小值放入tmp
+                tmp[k++] = p_ar[start1] < p_ar[start2] ? p_ar[start1++] : p_ar[start2++];
+
+            while (start1 < end1)   //将分段一剩余元素放入tmp
+                tmp[k++] = p_ar[start1++];
+
+            while (start2 < end2)   //将分段二剩余元素放入tmp
+                tmp[k++] = p_ar[start2++];
+        }
+        DataType* temp = p_ar;
+        p_ar = tmp;
+        tmp = temp;
+    }
+
+    //如果p_ar不指向原始数组(即p_ar指向排好序的临时空间,tmp指向原始数组)
+    if (p_ar != &ar->data[1]) 
+    {
+        int i;
+        for (i = 0; i < ar->size; i++)
+            tmp[i] = p_ar[i];        //将排好序的数组复制至原始数组
+        tmp = p_ar;                  //令tmp指向临时空间
+    }
+    free(tmp);      //释放临时空间
 }
 
 void BaseSort(array *ar)
