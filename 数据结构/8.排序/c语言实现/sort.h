@@ -2,8 +2,9 @@
 #define __SORT_H
 
 #define MAXSIZE 100000
-typedef int DataType;
 
+typedef int DataType;
+typedef void (*p_SortFun)();
 typedef struct{
     DataType data[MAXSIZE + 1];
     int size;
@@ -22,12 +23,13 @@ void SelectSort(array *ar);     //选择排序
 void HeapSort(array *ar);       //堆排序
 void HeapAdjust(array *ar, int NodeIndex, int size);
 
-void MergeSort(array *ar);      //归并排序
-
+void MergeSort(array* ar);      //归并排序
+int min(int x, int y);
 void BaseSort(array *ar);       //基数排序
 
 
 void printArray(array *ar);
 void GenerateArray(array *ar);
 void swap(DataType* a, DataType* b);
+
 #endif
