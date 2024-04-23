@@ -2,34 +2,31 @@
 #include "sort.h"
 #include <time.h>
 
+const p_SortFun p_fun[8] = {InsertSort,BinarySort,ShellSort,BubbleSort,SelectSort,HeapSort,MergeSort};
+const char* SortMethod[] ={"InsertSort","BinarySort","ShellSort","BubbleSort",
+                            "SelectSort","HeapSort","MergeSort","QuickSort"};
+
 int main(void)
 {
-    char* SortMethod[] ={"InsertSort","BinarySort","ShellSort","BubbleSort","SelectSort","HeapSort","QuickSort"};
-
-    typedef void (*p_SortFun)();
-    p_SortFun p_fun[8] = {InsertSort,BinarySort,ShellSort,BubbleSort,SelectSort,HeapSort};
-
     clock_t t[9];
     array ar;
 
-    printArray(&ar);
-    printf("\n\n\n");
-
-    for(int i = 0 ; i < 6 ; ++i)
+    for(int i = 0 ; i < 7 ; ++i)
     {
         GenerateArray(&ar);
+        if(i == 6) {printArray(&ar);printf("\n");}
         t[i] = clock();
         p_fun[i](&ar);
         t[i] = clock() - t[i];
+        if(i == 6) {printArray(&ar);printf("\n");}
     }
     
     GenerateArray(&ar);
-    t[6] = clock();
+    t[7] = clock();
     QuickSort(&ar, 1, ar.size);
-    t[6] = clock() - t[6];
-    printArray(&ar);
+    t[7] = clock() - t[7];
 
-    for(int i = 0 ; i < 7 ; ++i)
+    for(int i = 0 ; i < 8 ; ++i)
     {
         printf("%s:%f seconds\n",SortMethod[i],((float)t[i])/CLOCKS_PER_SEC);
     }
