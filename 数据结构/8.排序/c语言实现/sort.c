@@ -3,7 +3,7 @@
 #include<stdlib.h>    //malloc,free,srand,rand,RAND_MAX
 #include<stdio.h>
 #include<limits.h>    //INT_MAX
-
+#include<math.h>      //pow()
 void InsertSort(array *ar)
 {
     int i,j;
@@ -262,7 +262,15 @@ void BaseSort(array *ar)
         }
 
         /*回收*/
-        
+        int ar_index = 1;
+        for(int i = 0 ; i < 10 ; ++i)
+        {
+            for(int j = 0 ; j < bucket_tail[i] ; ++j)
+            {
+                ar->data[ar_index] = buckets[i][j];
+                ar_index++;
+            }
+        }
 }
 
 void GenerateArray(array *ar)
