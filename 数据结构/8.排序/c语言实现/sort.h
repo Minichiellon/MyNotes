@@ -1,7 +1,7 @@
 #ifndef __SORT_H
 #define __SORT_H
 
-#define MAXSIZE 100000
+#define MAXSIZE 20
 
 typedef int DataType;
 typedef void (*p_SortFun)();

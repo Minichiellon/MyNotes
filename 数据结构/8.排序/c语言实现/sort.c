@@ -220,15 +220,9 @@ void MergeSort(array* ar)
 
 void BaseSort(array *ar)
 {
-        DataType max = ar->data[1];
+    DataType max = ar->data[1];
     DataType* buckets[10];
     int cycle_times = 0;
-
-    /*每个桶大小为size/10,分配10个桶的空间*/
-    for(int i = 0 ; i < 10 ; ++i)
-    {
-        buckets[i] = (DataType*)malloc((ar->size/10) * sizeof(DataType));
-    }
 
     /*寻找最大的数，以其位数确定排序的次数*/
     for(int i = 2 ; i <= ar->size ; ++i)
@@ -247,10 +241,17 @@ void BaseSort(array *ar)
     int bucket_tail[10] = {0};      //每个桶结尾元素的位置
     int extra_space = 2;
     int bucket_index;
-    for(int j = 0 ; j < cycle_times ; ++j){     //排序cycle_times轮
+    for(int j = 0 ; j < cycle_times ; ++j)      //排序cycle_times轮
+    {
+        /*每个桶大小为size/10,分配10个桶的空间*/
+        for(int i = 0 ; i < 10 ; ++i)
+        {
+            buckets[i] = (DataType*)malloc((ar->size/10) * sizeof(DataType));
+        }
+
         for(int i = 1 ; i <= ar->size ; ++i)    //每个数按照其"个十百千万...."位的数放入相应桶中
         {
-            bucket_index = ar->data[i] % 10;
+            bucket_index = ar->data[i] / ((int)pow(10,j)) % 10;
             if(bucket_tail[bucket_index] >= ar->size/10)    //桶可能会满，此时重新申请更大空间
             {
                 buckets[bucket_index] = (DataType*)realloc(buckets[bucket_index],
@@ -265,14 +266,20 @@ void BaseSort(array *ar)
         int ar_index = 1;
         for(int i = 0 ; i < 10 ; ++i)
         {
-            for(int j = 0 ; j < bucket_tail[i] ; ++j)
+            for(int j = 1 ; j <= bucket_tail[i] ; ++j)
             {
                 ar->data[ar_index] = buckets[i][j];
                 ar_index++;
             }
         }
-}
 
+        /*释放桶空间*/
+        for(int i = 0 ; i < 10 ; ++i)
+        {
+            free(buckets[i]);
+        }
+    }
+}
 void GenerateArray(array *ar)
 {
     int i;
