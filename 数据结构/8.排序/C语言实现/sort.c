@@ -102,6 +102,40 @@ void QuickSort(array *ar, int low, int high)
     }
 }
 
+// 非递归的快速排序
+void iterativeQuickSort(array *ar, int low, int high) {
+    // 动态分配栈空间
+    int* stack = (int*)malloc((high - low + 1) * sizeof(int));
+    int top = -1;
+
+    // 将初始区间压栈
+    stack[++top] = low;
+    stack[++top] = high;
+    //int a = 0;
+    while (top >= 0) {
+        // 弹出high和low
+        high = stack[top--];
+        low = stack[top--];
+
+        // 分区操作
+        int pi = Partition(ar, low, high);
+        //printf("%d\n",a++);fflush(stdout);
+        // 优先压栈处理较大的部分，减少栈空间的使用
+        if (pi - 1 > low) {
+            stack[++top] = low;
+            stack[++top] = pi - 1;
+        }
+
+        if (pi + 1 < high) {
+            stack[++top] = pi + 1;
+            stack[++top] = high;
+        }
+    }
+
+    // 释放动态分配的内存
+    free(stack);
+}
+
 int Partition(array *ar, int low, int high)
 {
     DataType pivotData;

@@ -1,8 +1,7 @@
 #ifndef __SORT_H
 #define __SORT_H
 
-#define MAXSIZE 100000
-
+#define MAXSIZE 50000000
 typedef int DataType;
 typedef void (*p_SortFun)();
 typedef struct{
@@ -17,6 +16,7 @@ void ShellInsert(array *ar, int dk);
 
 void BubbleSort(array *ar);     //冒泡排序
 void QuickSort(array *ar, int low, int high);     //快速排序
+void iterativeQuickSort(array *ar, int low, int high);   //非递归的快速排序
 int Partition(array *ar, int low, int high);
 
 void SelectSort(array *ar);     //选择排序
