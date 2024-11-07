@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<limits.h>    //INT_MAX
 #include<math.h>      //pow()
+extern array* ar;
 void InsertSort(array *ar)
 {
     int i,j;
@@ -103,7 +104,8 @@ void QuickSort(array *ar, int low, int high)
 }
 
 // 非递归的快速排序
-void iterativeQuickSort(array *ar, int low, int high) {
+void iterativeQuickSort(array *ar) {
+    int low = 1, high = ar->size;
     // 动态分配栈空间
     int* stack = (int*)malloc((high - low + 1) * sizeof(int));
     int top = -1;
@@ -333,15 +335,63 @@ void BaseSort(array *ar)
         }
     }
 }
+
+void countingSort(array* ar) {
+    int size = ar->size;
+    if (size <= 0) return;
+
+    // 找到数组中的最大值
+    int max = ar->data[1];
+    for (int i = 1; i < size; i++) {
+        if (ar->data[i] > max) {
+            max = ar->data[i];
+        }
+    }
+
+    // 创建计数数组，并初始化为0
+    int *count = (int *)calloc(max + 1, sizeof(DataType));
+
+    // 统计每个元素的出现次数
+    for (int i = 0; i < size; i++) {
+        count[ar->data[i]]++;
+    }
+
+    // 累加计数数组
+    for (int i = 1; i <= max; i++) {
+        count[i] += count[i - 1];
+    }
+
+    // 创建输出数组
+    int *output = (int *)malloc(size * sizeof(DataType));
+
+    // 倒序遍历原数组，将元素放入正确位置
+    for (int i = size - 1; i >= 0; i--) {
+        output[count[ar->data[i]] - 1] = ar->data[i];
+        count[ar->data[i]]--;
+    }
+
+    // 将排序好的元素复制回原数组
+    for (int i = 0; i < size; i++) {
+        ar->data[i] = output[i];
+    }
+
+    // 释放内存
+    free(count);
+    free(output);
+}
+
 void GenerateArray(array *ar)
 {
     int i;
     ar->data[0] = 0;
     srand((unsigned)time(0));
-    for(i = 1 ; i < MAXSIZE + 1; ++i)
+    for(i = 1 ; i < ARRAY_MAXSIZE + 1; ++i)
     {
+        // 使用 rand() 生成一个 0 到 INT_MAX 的随机数
+        //int random1 = rand();
+        ar->data[i] = ((int)rand() << 16) | (int)rand(); 
         //ar->data[i] = (INT_MAX/RAND_MAX) * rand();    //线性映射至[0,MAX_INT]
-        ar->data[i] = rand();
+        //ar->data[i] = rand() % i;
     }
     ar->size = i - 1;
 }
@@ -360,4 +410,20 @@ void swap(DataType* a, DataType* b)
     DataType tmp = *a;
     *a = *b;
     *b = tmp;
+}
+
+void WriteFile(char* FileName, array* ar){
+    FILE *fp = fopen(FileName, "w");
+
+    // 检查文件是否成功打开
+    if (fp == NULL) {
+        printf("无法打开文件!\n");
+        exit(EXIT_FAILURE);
+    }
+    fprintf(fp,"array大小为:\t%d\n",ar->size);
+    for(int i = 1 ; i <= ar->size ; i++){
+        fprintf(fp, "%-15d", ar->data[i]);
+        if(i % 10 == 0) fprintf(fp, "\n");
+    }
+    fclose(fp);
 }
