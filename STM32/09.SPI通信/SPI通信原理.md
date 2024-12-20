@@ -69,4 +69,4 @@ SPI主机和从机的数据通信都是基于双方的移位寄存器的字节�
 
 3. 指定地址读  
 向SS指定的设备，发送读指令（0x03），随后在指定地址（Address[23:0]）下，读取从机数据（Data）  
-<div><img src = "./images/指定地址写读.png"></div>
+<div><img src = "./images/指定地址读.png"></div>
