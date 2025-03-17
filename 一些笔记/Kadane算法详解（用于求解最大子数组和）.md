@@ -62,6 +62,7 @@ int kadane(int* nums, int size) {
     int current_max = nums[0];
     int global_max = nums[0];
     for (int i = 1; i < size; i++) {
+        //从第二个元素开始遍历，比较"选取当前元素"和"从当前元素重新开始"哪种情况值更大
         current_max = max(nums[i], current_max + nums[i]);
         global_max = max(global_max, current_max);
     }
