@@ -1,5 +1,5 @@
 ## 数据结构  
- <details><summary>2.线性表</summary>  
+ <details><summary>2.线性表</summary>  <br/>
     <a href = "大学课程/数据结构/2.线性表/2.1线性表的类型定义.md" target = "_blank">2.1线性表的类型定义</a>  <br/>
 　　<a href = "大学课程/数据结构/2.线性表/2.2线性表的顺序表示和实现.md" target="_blank">2.2线性表的顺序表示和实现</a>  <br/>
 　　<a href = "大学课程/数据结构/2.线性表/2.3线性表的链式表示和实现.md" target="_blank">2.3线性表的链式表示和实现</a>  <br/>
