@@ -44,6 +44,174 @@ xUSATR_TypeDef  xUSART;         // 声明为全局变量,方便记录信息、状态
 
 
 
+//////////////////////////////////////////////////////////////   USARTx   //////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/******************************************************************************
+ * 函  数： vUSARTx_Init
+ * 功  能： 初始化USARTx的GPIO、通信参数配置、中断优先级
+ *          (8位数据、无校验、1个停止位)
+ * 参  数： USART_TypeDef* USARTx，USARTx可以为USART1、USART2、USART3、UART4、UART5
+			uint32_t baudrate  通信波特率
+ * 返回值： 无
+ ******************************************************************************/
+void USARTx_Init(USART_TypeDef* USARTx, uint32_t baudrate)
+{
+	static uint8_t USARTx_InitFlag = 0;	
+    GPIO_InitTypeDef  GPIO_InitStructure;
+    NVIC_InitTypeDef  NVIC_InitStructure;
+    USART_InitTypeDef USART_InitStructure;
+
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	
+	// 中断通用配置
+    NVIC_InitStructure .NVIC_IRQChannelPreemptionPriority = 2 ;     // 抢占优先级
+    NVIC_InitStructure .NVIC_IRQChannelSubPriority = 2;             // 子优先级
+	NVIC_InitStructure .NVIC_IRQChannelCmd = ENABLE;                // IRQ通道使能
+	
+	//USART 通用初始化设置
+    USART_InitStructure.USART_BaudRate   = baudrate;                // 串口波特率
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;     // 字长为8位数据格式
+    USART_InitStructure.USART_StopBits   = USART_StopBits_1;        // 一个停止位
+    USART_InitStructure.USART_Parity     = USART_Parity_No;         // 无奇偶校验位
+    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx; // 使能收、发模式
+	
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOF , ENABLE);
+
+	if(USARTx == USART1)
+	{
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1 , ENABLE);         // 使能USART1时钟
+		
+		// GPIO_TX引脚配置
+		GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_9;
+		GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_PP;                // TX引脚工作模式：复用推挽
+		GPIO_Init(GPIOA, &GPIO_InitStructure);
+		// GPIO_RX引脚配置
+		GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_10;
+		GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IPU;                  // RX引脚工作模式：上拉输入; 如果使用浮空输入，引脚空置时可能产生误输入; 当电路上为一主多从电路时，可以使用复用开漏模式
+		GPIO_Init(GPIOA, &GPIO_InitStructure);
+		
+		NVIC_InitStructure .NVIC_IRQChannel = USART1_IRQn;
+				
+		xUSART.USART1InitFlag = 1;                                      // 标记初始化标志
+		xUSART.USART1ReceivedNum = 0;                                   // 接收字节数清零
+		
+		USARTx_InitFlag = 1;
+	}
+	if(USARTx == USART2)
+	{
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2 , ENABLE);         // 使能USART2时钟
+		
+		// GPIO_TX引脚配置
+		GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_2;
+		GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_PP;                // TX引脚工作模式：复用推挽
+		GPIO_Init(GPIOA, &GPIO_InitStructure);
+		// GPIO_RX引脚配置
+		GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_3;
+		GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IPU;                  // RX引脚工作模式：上拉输入; 如果使用浮空输入，引脚空置时可能产生误输入; 当电路上为一主多从电路时，可以使用复用开漏模式
+		GPIO_Init(GPIOA, &GPIO_InitStructure);
+		
+		NVIC_InitStructure .NVIC_IRQChannel = USART2_IRQn;
+		
+		xUSART.USART2InitFlag = 1;                                      // 标记初始化标志
+		xUSART.USART2ReceivedNum = 0;                                   // 接收字节数清零
+		
+		USARTx_InitFlag = 2;
+	}
+	if(USARTx == USART3)
+	{
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3 , ENABLE);         // 使能USART3时钟
+		
+	    // GPIO_TX引脚配置
+		GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_10;
+		GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_PP;                // TX引脚工作模式：复用推挽
+		GPIO_Init(GPIOB, &GPIO_InitStructure);
+		// GPIO_RX引脚配置
+		GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_11;
+		GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IPU;                  // RX引脚工作模式：上拉输入; 如果使用浮空输入，引脚空置时可能产生误输入; 当电路上为一主多从电路时，可以使用复用开漏模式
+		GPIO_Init(GPIOB, &GPIO_InitStructure);
+		
+		NVIC_InitStructure .NVIC_IRQChannel = USART3_IRQn;
+		
+		xUSART.USART3InitFlag = 1;                                      // 标记初始化标志
+		xUSART.USART3ReceivedNum = 0;                                   // 接收字节数清零
+		
+		USARTx_InitFlag = 3;
+	}
+	if(USARTx == UART4)
+	{
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4 , ENABLE);         // 使能UART4时钟
+		
+		// GPIO_TX引脚配置
+		GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_10;
+		GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_PP;                // TX引脚工作模式：复用推挽    GPIO_Init(GPIOC, &GPIO_InitStructure);
+		// GPIO_RX引脚配置
+		GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_11;
+		GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IPU;                  // RX引脚工作模式：上拉输入; 如果使用浮空输入，引脚空置时可能产生误输入; 当电路上为一主多从电路时，可以使用复用开漏模式
+		GPIO_Init(GPIOC, &GPIO_InitStructure);
+		
+		NVIC_InitStructure .NVIC_IRQChannel = UART4_IRQn;
+		
+		xUSART.UART4InitFlag = 1;                                      // 标记初始化标志
+		xUSART.UART4ReceivedNum = 0;                                   // 接收字节数清零
+		
+		USARTx_InitFlag = 4;
+	}
+	if(USARTx == UART5)
+	{
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART5 , ENABLE);         // 使能UART5时钟
+		
+		// GPIO_TX引脚配置
+		GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_12;
+		GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_PP;                // TX引脚工作模式：复用推挽
+		GPIO_Init(GPIOC, &GPIO_InitStructure);
+		// GPIO_RX引脚配置
+		GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_2;
+		GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IPU;                  // RX引脚工作模式：上拉输入; 如果使用浮空输入，引脚空置时可能产生误输入; 当电路上为一主多从电路时，可以使用复用开漏模式
+		GPIO_Init(GPIOD, &GPIO_InitStructure);
+		
+		NVIC_InitStructure .NVIC_IRQChannel = UART5_IRQn;
+		
+		xUSART.UART5InitFlag = 1;                                      // 标记初始化标志
+		xUSART.UART5ReceivedNum = 0;                                   // 接收字节数清零
+		
+		USARTx_InitFlag = 5;
+	}
+
+    NVIC_Init(&NVIC_InitStructure);
+
+	USART_DeInit(USARTx);
+	USART_Init(USARTx, &USART_InitStructure);                       // 初始化串口
+	
+	USART_ITConfig(USARTx, USART_IT_TXE, DISABLE);
+	USART_ITConfig(USARTx, USART_IT_RXNE, ENABLE);                  // 使能接受中断
+	USART_ITConfig(USARTx, USART_IT_IDLE, ENABLE);                  // 使能空闲中断
+
+	USART_Cmd(USARTx, ENABLE);                                      // 使能串口, 开始工作
+
+    printf("\r\r\r=========== 魔女开发板 STM32F103 外设初始报告 ===========\r");
+    printf("USART%d初始化配置      接收中断、空闲中断, 发送中断\r", USARTx_InitFlag);
+}
+
+/******************************************************************************
+ * 函  数： vUSARTx_GetBuffer
+ * 功  能： 获取UART所接收到的数据
+ * 参  数： USART_TypeDef* USARTx，USARTx可以为USART1、USART2、USART3、UART4、UART5
+			uint8_t* buffer   数据存放缓存地址
+ *          uint8_t* cnt      接收到的字节数
+ * 返回值： 0_没有接收到新数据， 非0_所接收到新数据的字节数
+ ******************************************************************************/
+//uint8_t USARTx_GetBuffer(USART_TypeDef* USARTx, uint8_t *buffer, uint8_t *cnt)
+//{
+//    if (xUSART.USART1ReceivedNum > 0)                                           // 判断是否有新数据
+//    {
+//        memcpy(buffer, xUSART.USART1ReceivedData, xUSART.USART1ReceivedNum);  // 把新数据复制到指定位置
+//        *cnt = xUSART.USART1ReceivedNum;                                        // 把新数据的字节数，存放指定变量
+//        xUSART.USART1ReceivedNum = 0;                                           // 接收标记置0
+//        return *cnt;                                                            // 返回所接收到新数据的字节数
+//    }
+//    return 0;                                                                   // 返回0, 表示没有接收到新数据
+//}
 
 //////////////////////////////////////////////////////////////   USART-1   //////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -224,31 +392,46 @@ void USART1_SendStringForDMA(char *stringTemp)
 
     while (*t++ != 0)  num++;                    // 计算要发送的数目，这步比较耗时，测试发现每多6个字节，增加1us，单位：8位
 
-    while (DMA1_Channel4->CNDTR > 0);            // 重要：如果DMA还在进行上次发送，就等待; 得进完成中断清标志，F4不用这么麻烦，发送完后EN自动清零
+    while (DMA_GetCurrDataCounter(DMA1_Channel4) > 0);            // 重要：如果DMA还在进行上次发送，就等待; 得进完成中断清标志，F4不用这么麻烦，发送完后EN自动清零
     if (Flag_DmaTxInit == 0)                     // 是否已进行过USAART_TX的DMA传输配置
     {
         Flag_DmaTxInit  = 1;                     // 设置标记，下次调用本函数就不再进行配置了
-        USART1 ->CR3   |= 1 << 7;                // 使能DMA发送
-        RCC->AHBENR    |= 1 << 0;                // 开启DMA1时钟  [0]DMA1   [1]DMA2
+		
+        USART_DMACmd(USART1, USART_DMAReq_Tx, ENABLE);                // 使能DMA发送
+        RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);            // 开启DMA1时钟  [0]DMA1   [1]DMA2
 
-        DMA1_Channel4->CCR   = 0;                // 失能， 清0整个寄存器, DMA必须失能才能配置
-        DMA1_Channel4->CNDTR = num;              // 传输数据量
-        DMA1_Channel4->CMAR  = (u32)stringTemp;  // 存储器地址
-        DMA1_Channel4->CPAR  = (u32)&USART1->DR; // 外设地址
+        DMA_Cmd(DMA1_Channel4, DISABLE);//                // 失能， 清0整个寄存器, DMA必须失能才能配置
+//        DMA_SetCurrDataCounter(DMA1_Channel4, num);              // 传输数据量
+//        DMA1_Channel4->CMAR  = (u32)stringTemp;  // 存储器地址
+//        DMA1_Channel4->CPAR  = (u32)&USART1->DR; // 外设地址
 
-        DMA1_Channel4->CCR |= 1 << 4;            // 数据传输方向   0:从外设读   1:从存储器读
-        DMA1_Channel4->CCR |= 0 << 5;            // 循环模式       0:不循环     1：循环
-        DMA1_Channel4->CCR |= 0 << 6;            // 外设地址非增量模式
-        DMA1_Channel4->CCR |= 1 << 7;            // 存储器增量模式
-        DMA1_Channel4->CCR |= 0 << 8;            // 外设数据宽度为8位
-        DMA1_Channel4->CCR |= 0 << 10;           // 存储器数据宽度8位
-        DMA1_Channel4->CCR |= 0 << 12;           // 中等优先级
-        DMA1_Channel4->CCR |= 0 << 14;           // 非存储器到存储器模式
+//        DMA1_Channel4->CCR |= 1 << 4;            // 数据传输方向   0:从外设读   1:从存储器读
+//        DMA1_Channel4->CCR |= 0 << 5;            // 循环模式       0:不循环     1：循环
+//        DMA1_Channel4->CCR |= 0 << 6;            // 外设地址非增量模式
+//        DMA1_Channel4->CCR |= 1 << 7;            // 存储器增量模式
+//        DMA1_Channel4->CCR |= 0 << 8;            // 外设数据宽度为8位
+//        DMA1_Channel4->CCR |= 0 << 10;           // 存储器数据宽度8位
+//        DMA1_Channel4->CCR |= 0 << 12;           // 中等优先级
+//        DMA1_Channel4->CCR |= 0 << 14;           // 非存储器到存储器模式
+		DMA_InitTypeDef DMA_InitStructure;
+		DMA_InitStructure.DMA_PeripheralBaseAddr = (u32)&USART1->DR;
+		DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+		DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+		DMA_InitStructure.DMA_MemoryBaseAddr = (u32)stringTemp;
+		DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+		DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+		DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
+		DMA_InitStructure.DMA_BufferSize = U1_RX_BUF_SIZE;
+		DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+		DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
+		DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;
+		
+		DMA_Init(DMA1_Channel4, &DMA_InitStructure);
     }
-    DMA1_Channel4->CCR  &= ~((u32)(1 << 0));     // 失能，DMA必须失能才能配置
-    DMA1_Channel4->CNDTR = num;                  // 传输数据量
+    DMA_Cmd(DMA1_Channel4, DISABLE);     // 失能，DMA必须失能才能配置
+    DMA_SetCurrDataCounter(DMA1_Channel4, num);                  // 传输数据量
     DMA1_Channel4->CMAR  = (u32)stringTemp;      // 存储器地址
-    DMA1_Channel4->CCR  |= 1 << 0;               // 开启DMA传输
+    DMA_Cmd(DMA1_Channel4, ENABLE);               // 开启DMA传输
 }
 
 
@@ -272,8 +455,8 @@ void USART2_Init(uint32_t baudrate)
     USART_InitTypeDef USART_InitStructure;
 
     // 时钟使能
-    RCC->APB1ENR |= RCC_APB1ENR_USART2EN;                           // 使能USART2时钟
-    RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;                             // 使能GPIOA时钟
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2 , ENABLE);                          // 使能USART2时钟
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA , ENABLE);                           // 使能GPIOA时钟
 
     // GPIO_TX引脚配置
     GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_2;
@@ -309,7 +492,7 @@ void USART2_Init(uint32_t baudrate)
 
     USART_Cmd(USART2, ENABLE);                                      // 使能串口, 开始工作
 
-    USART2->SR = ~(0x00F0);                                         // 清理中断
+//    USART2->SR = ~(0x00F0);                                         // 清理中断
 
     xUSART.USART2InitFlag = 1;                                      // 标记初始化标志
     xUSART.USART2ReceivedNum = 0;                                   // 接收字节数清零
@@ -333,15 +516,15 @@ void USART2_IRQHandler(void)
     static uint8_t  RxTemp[U2_RX_BUF_SIZE];                          // 接收数据缓存数组：每新接收１个字节，先顺序存放到这里，当一帧接收完(发生空闲中断), 再转存到全局变量：xUSART.USARTxReceivedData[xx]中；
 
     // 接收中断
-    if (USART2->SR & (1 << 5))                                       // 检查RXNE(读数据寄存器非空标志位); RXNE中断清理方法：读DR时自动清理；
+    if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET)                                       // 检查RXNE(读数据寄存器非空标志位); RXNE中断清理方法：读DR时自动清理；
     {
         if ((cnt >= U2_RX_BUF_SIZE))//||xUSART.USART2ReceivedFlag==1 // 判断1: 当前帧已接收到的数据量，已满(缓存区), 为避免溢出，本包后面接收到的数据直接舍弃．
         {
             // 判断2: 如果之前接收好的数据包还没处理，就放弃新数据，即，新数据帧不能覆盖旧数据帧，直至旧数据帧被处理．缺点：数据传输过快于处理速度时会掉包；好处：机制清晰，易于调试
-            USART2->DR;                                              // 读取数据寄存器的数据，但不保存．主要作用：读DR时自动清理接收中断标志；
+            USART_ReceiveData(USART2);                               // 读取数据寄存器的数据，但不保存．主要作用：读DR时自动清理接收中断标志；
             return;
         }
-        RxTemp[cnt++] = USART2->DR ;                                 // 把新收到的字节数据，顺序存放到RXTemp数组中；注意：读取DR时自动清零中断位；
+        RxTemp[cnt++] = USART_ReceiveData(USART2);                   // 把新收到的字节数据，顺序存放到RXTemp数组中；注意：读取DR时自动清零中断位；
     }
 
     // 空闲中断, 用于配合接收中断，以判断一帧数据的接收完成

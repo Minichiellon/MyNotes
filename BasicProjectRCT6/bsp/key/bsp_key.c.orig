@@ -2,8 +2,15 @@
 #include "bsp_led.h"
 #include "bsp_usart.h"
 #include "system_f103.h"
-
 static uint8_t KeyPressFlag;
+
+typedef enum ButtonState {
+  IDLE,
+  DEBOUNCE_PRESS,
+  PRESSED,
+  DEBOUNCE_RELEASE,
+  WAIT_DOUBLE
+}ButtonState;
 
 const unsigned long DEBOUNCE_DELAY = 20; // Ïû¶¶Ê±¼ä£¨ºÁÃë£©
 const unsigned long LONG_PRESS_TIME = 1000; // ³¤°´Ê±¼äãÐÖµ
@@ -23,7 +30,7 @@ void Key_Init(void)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE) ;      // EXTIµÄÊ±ÖÓÒªÉèÖÃAFIO¼Ä´æÆ÷
 
     // Ê¹ÄÜGPIOÊ±ÖÓ, Îª¼õÉÙµ÷ÊÔ¹ý³ÌÍüÁËÊ¹ÄÜÊ±ÖÓ¶ø³ö´í£¬°ÑÏà¹ØGPIO¶Ë¿ÚÊ±ÖÓ£¬¶¼Ê¹ÄÜÁË£»
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOF, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOF , ENABLE);
 
     // KEY_1
     // ÅäÖÃÒý½Å¹¤×÷Ä£Ê½
@@ -92,26 +99,26 @@ void Key_Init(void)
   * ·µ »Ø Öµ£º°´ÏÂ°´¼üµÄ¼üÂëÖµ£¬·¶Î§£º1~3£¬·µ»Ø0´ú±íÃ»ÓÐ°´¼ü°´ÏÂ
   */
 uint8_t Key_GetNum(void)
-{
-    uint8_t KeyNum;
-    if(KeyPressFlag == KEY_1_PRESS)
-    {
-        KeyNum = KEY_1_NUM;
-        KeyPressFlag = 0;
-    }
-
-    if(KeyPressFlag == KEY_2_PRESS)
-    {
-        KeyNum = KEY_2_NUM;
-        KeyPressFlag = 0;
-    }
-
-    if(KeyPressFlag == KEY_3_PRESS)
-    {
-        KeyNum = KEY_3_NUM;
-        KeyPressFlag = 0;
-    }
-    return KeyNum;			//·µ»Ø¼üÂëÖµ£¬Èç¹ûÃ»ÓÐ°´¼ü°´ÏÂ£¬ËùÓÐif¶¼²»³ÉÁ¢£¬Ôò¼üÂëÎªÄ¬ÈÏÖµ0
+{	
+	uint8_t KeyNum;
+	if(KeyPressFlag == KEY_1_PRESS)
+	{
+		KeyNum = KEY_1_NUM;
+		KeyPressFlag = 0;
+	}
+	
+	if(KeyPressFlag == KEY_2_PRESS)
+	{
+		KeyNum = KEY_2_NUM;
+		KeyPressFlag = 0;
+	}
+	
+	if(KeyPressFlag == KEY_3_PRESS)
+	{
+		KeyNum = KEY_3_NUM;
+		KeyPressFlag = 0;
+	}
+	return KeyNum;			//·µ»Ø¼üÂëÖµ£¬Èç¹ûÃ»ÓÐ°´¼ü°´ÏÂ£¬ËùÓÐif¶¼²»³ÉÁ¢£¬Ôò¼üÂëÎªÄ¬ÈÏÖµ0
 }
 
 // KEY_1 ÖÐ¶Ï·þÎñº¯Êý
@@ -120,7 +127,7 @@ void KEY_1_IRQHANDLER(void)                        		// ÌáÊ¾£ºÕâ¸öº¯ÊýÃû£¬ÊÇhÎÄ¼
     if (EXTI_GetITStatus(KEY_1_EXTI_LINE))          	// °å×ÓÉÏµÄ°´¼üÒÑÊ¹ÓÃµçÈÝ×÷¼òµ¥µÄÓ²¼þÏû¶¶,ÎÞÐèÔÙÊ¹ÓÃÈí¼þÑÓÊ±Ïû¶¶
     {
         EXTI_ClearITPendingBit(KEY_1_EXTI_LINE);    	// ÇåÀíÖÐ¶Ï±êÊ¾
-        KeyPressFlag = KEY_1_PRESS;
+        KeyPressFlag = KEY_1_PRESS;                  
     }
 }
 
@@ -132,7 +139,7 @@ void KEY_2_IRQHANDLER(void)                        		// ÌáÊ¾£ºÕâ¸öº¯ÊýÃû£¬ÊÇhÎÄ¼
     if (EXTI_GetITStatus(KEY_2_EXTI_LINE))				// °å×ÓÉÏµÄ°´¼üÒÑÊ¹ÓÃµçÈÝ×÷¼òµ¥µÄÓ²¼þÏû¶¶,ÎÞÐèÔÙÊ¹ÓÃÈí¼þÑÓÊ±Ïû¶¶
     {
         EXTI_ClearITPendingBit(KEY_2_EXTI_LINE);		// ÇåÀíÖÐ¶Ï±êÊ¾
-        KeyPressFlag = KEY_2_PRESS;
+        KeyPressFlag = KEY_2_PRESS;      
     }
 }
 
@@ -144,116 +151,85 @@ void KEY_3_IRQHANDLER(void)                        		// ÌáÊ¾£ºÕâ¸öº¯ÊýÃû£¬ÊÇhÎÄ¼
     if (EXTI_GetITStatus(KEY_3_EXTI_LINE))              // °å×ÓÉÏµÄ°´¼üÒÑÊ¹ÓÃµçÈÝ×÷¼òµ¥µÄÓ²¼þÏû¶¶,ÎÞÐèÔÙÊ¹ÓÃÈí¼þÑÓÊ±Ïû¶¶
     {
         EXTI_ClearITPendingBit(KEY_3_EXTI_LINE);        // ÇåÀíÖÐ¶Ï±êÊ¾
-        KeyPressFlag = KEY_3_PRESS;
+        KeyPressFlag = KEY_3_PRESS;                       
     }
 }
 
-void CheckKeyEvent(KeyIndex key)
-{
-    uint8_t buttonValue;
-	if(key == KEY_1)
-		buttonValue = GPIO_ReadInputDataBit(KEY_1_GPIO, KEY_1_PIN); // ¶ÁÈ¡°´¼ü×´Ì¬£¨°´ÏÂÎªLOW£©
-	else if(key == KEY_2)
-		buttonValue = GPIO_ReadInputDataBit(KEY_2_GPIO, KEY_2_PIN); // ¶ÁÈ¡°´¼ü×´Ì¬£¨°´ÏÂÎªLOW£©
-	else if(key == KEY_3)
-		buttonValue = GPIO_ReadInputDataBit(KEY_3_GPIO, KEY_3_PIN); // ¶ÁÈ¡°´¼ü×´Ì¬£¨°´ÏÂÎªLOW£©
-	
-    uint16_t currentTime = System_GetTimeMs();
+void CheckKeyEvent(void) {
+  int buttonValue = GPIO_ReadInputDataBit(KEY_1_GPIO, KEY_1_PIN); // ¶ÁÈ¡°´¼ü×´Ì¬£¨°´ÏÂÎªLOW£©
+  unsigned long currentTime = System_GetTimeMs();
 
-    switch (currentState)
-    {
+  switch (currentState) {
     case IDLE:
-        if (buttonValue == RESET)   // ¼ì²âµ½°´ÏÂ
-        {
-            currentState = DEBOUNCE_PRESS;
-            pressStartTime = currentTime;
-        }
-        break;
+      if (buttonValue == RESET) { // ¼ì²âµ½°´ÏÂ
+        currentState = DEBOUNCE_PRESS;
+        pressStartTime = currentTime;
+      }
+      break;
 
     case DEBOUNCE_PRESS:
-        if (currentTime - pressStartTime >= DEBOUNCE_DELAY)
-        {
-            if (buttonValue == RESET)   // È·ÈÏ°´ÏÂ£¬½øÈëPRESSED×´Ì¬
-            {
-                currentState = PRESSED;
-                pressStartTime = currentTime; // ¼ÇÂ¼³¤°´¿ªÊ¼Ê±¼ä
-            }
-            else     // ¶¶¶¯£¬·µ»ØIDLE
-            {
-                currentState = IDLE;
-            }
+      if (currentTime - pressStartTime >= DEBOUNCE_DELAY) {
+        if (buttonValue == RESET) { // È·ÈÏ°´ÏÂ£¬½øÈëPRESSED×´Ì¬
+          currentState = PRESSED;
+          pressStartTime = currentTime; // ¼ÇÂ¼³¤°´¿ªÊ¼Ê±¼ä
+        } else { // ¶¶¶¯£¬·µ»ØIDLE
+          currentState = IDLE;
         }
-        break;
+      }
+      break;
 
     case PRESSED:
-        if (buttonValue == SET)   // °´¼üÊÍ·Å
-        {
-            currentState = DEBOUNCE_RELEASE;
-            releaseStartTime = currentTime;
+      if (buttonValue == SET) { // °´¼üÊÍ·Å
+        currentState = DEBOUNCE_RELEASE;
+        releaseStartTime = currentTime;
+      } else {
+        // ¼ì²â³¤°´
+        if (currentTime - pressStartTime >= LONG_PRESS_TIME) {
+          handleLongPress();
+          currentState = IDLE;
         }
-        else
-        {
-            // ¼ì²â³¤°´
-            if (currentTime - pressStartTime >= LONG_PRESS_TIME)
-            {
-                handleLongPress();
-                currentState = IDLE;
-            }
-        }
-        break;
+      }
+      break;
 
     case DEBOUNCE_RELEASE:
-        if (currentTime - releaseStartTime >= DEBOUNCE_DELAY)
-        {
-            if (buttonValue == SET)   // È·ÈÏÊÍ·Å£¬µÈ´ýË«»÷
-            {
-                currentState = WAIT_DOUBLE;
-                releaseStartTime = currentTime;
-            }
-            else     // ÈÔ´¦ÓÚ°´ÏÂ×´Ì¬£¬·µ»ØPRESSED
-            {
-                currentState = PRESSED;
-            }
+      if (currentTime - releaseStartTime >= DEBOUNCE_DELAY) {
+        if (buttonValue == SET) { // È·ÈÏÊÍ·Å£¬µÈ´ýË«»÷
+          currentState = WAIT_DOUBLE;
+          releaseStartTime = currentTime;
+        } else { // ÈÔ´¦ÓÚ°´ÏÂ×´Ì¬£¬·µ»ØPRESSED
+          currentState = PRESSED;
         }
-        break;
+      }
+      break;
 
     case WAIT_DOUBLE:
-        if (buttonValue == RESET)   // ÔÙ´Î°´ÏÂ
-        {
-            currentState = DEBOUNCE_PRESS;
-            unsigned long waitTime = currentTime - releaseStartTime;
-            if (waitTime <= DOUBLE_CLICK_INTERVAL)
-            {
-                handleDoubleClick();
-                currentState = IDLE; // ´¥·¢Ë«»÷ºóÖ±½Ó»Øµ½IDLE
-            }
-            else
-            {
-                handleClick(); // ³¬Ê±ºó´¥·¢µ¥»÷
-                pressStartTime = currentTime; // ¿ªÊ¼ÐÂµÄ°´ÏÂ´¦Àí
-                currentState = DEBOUNCE_PRESS;
-            }
+      if (buttonValue == RESET) { // ÔÙ´Î°´ÏÂ
+        currentState = DEBOUNCE_PRESS;
+        unsigned long waitTime = currentTime - releaseStartTime;
+        if (waitTime <= DOUBLE_CLICK_INTERVAL) {
+          handleDoubleClick();
+          currentState = IDLE; // ´¥·¢Ë«»÷ºóÖ±½Ó»Øµ½IDLE
+        } else {
+          handleClick(); // ³¬Ê±ºó´¥·¢µ¥»÷
+          pressStartTime = currentTime; // ¿ªÊ¼ÐÂµÄ°´ÏÂ´¦Àí
+          currentState = DEBOUNCE_PRESS;
         }
-        else if (currentTime - releaseStartTime >= DOUBLE_CLICK_INTERVAL)
-        {
-            handleClick(); // ³¬Ê±£¬´¥·¢µ¥»÷
-            currentState = IDLE;
-        }
-        break;
-    }
+      } else if (currentTime - releaseStartTime >= DOUBLE_CLICK_INTERVAL) {
+        handleClick(); // ³¬Ê±£¬´¥·¢µ¥»÷
+        currentState = IDLE;
+      }
+      break;
+  }
 }
 
-void handleClick(void)
-{
-    printf("µ¥»÷\r\n");
+void handleClick(void) {
+  printf("µ¥»÷\r\n");
 }
 
-void handleDoubleClick(void)
-{
-    printf("Ë«»÷\r\n");
+void handleDoubleClick(void) {
+  printf("Ë«»÷\r\n");
 }
 
-void handleLongPress(void)
-{
-    printf("³¤°´\r\n");
+void handleLongPress(void) {
+  printf("³¤°´\r\n");
 }

@@ -2,7 +2,21 @@
 #define _BSP_KEY_H
 #include <stm32f10x.h>  
 
+typedef enum
+{
+    IDLE,
+    DEBOUNCE_PRESS,
+    PRESSED,
+    DEBOUNCE_RELEASE,
+    WAIT_DOUBLE
+} ButtonState;
 
+typedef enum
+{
+	KEY_1,
+	KEY_2,
+	KEY_3
+}KeyIndex;
 
 /*****************************************************************************
  ** ÒÆÖ²Ê±ÐÞ¸Ä
@@ -51,7 +65,9 @@
 ****************************************************************************/
 extern void Key_Init(void);
 extern uint8_t Key_GetNum(void);
-
-
+extern void handleClick(void);
+extern void handleDoubleClick(void);
+extern void handleLongPress(void);
+extern void CheckKeyEvent(KeyIndex key);
 #endif
 
