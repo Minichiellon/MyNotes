@@ -106,7 +106,7 @@ void Createfile(wchar_t* FileName, wchar_t* PicNameArr){
     }
 
     // 向文件写入内容
-        fwprintf(file, L"<div><img src = \"%ls\"></div>\n",PicNameArr);
+        fwprintf(file, L"<div><img src = \"%ls\)\n",PicNameArr);
     // 关闭文件
     fclose(file);
 }
