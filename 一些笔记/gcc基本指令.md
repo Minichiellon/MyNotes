@@ -1,5 +1,5 @@
 ## 1 gcc基本指令
-<div><img src = "./images/gcc基本命令.png"></div>
+![](./images/gcc基本命令.png"></div>
 
 ### 1.1 预处理
 　　预处理操作，主要是处理那些源文件和头文件中以 # 开头的命令（比如 #include、#define、#ifdef 等），并删除程序中所有的注释 // 和 /* ... */。
