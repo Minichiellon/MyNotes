@@ -21,7 +21,7 @@ vector以更多的内存换取了管理存储和动态增长的能力。而且�
 |copy    |vector (const vector& x);|vector<int> fourth (third);|复制另一个vector的内容|
 
 
->次为c++98的标准，c++11起支持移动构造和列表初始化。[点此了解更多](https://legacy.cplusplus.com/reference/vector/vector/vector/)
+>次为c++98的标准，c++11起支持移动构造和列表初始化。[点此了解更多](https://cplusplus.com/reference/vector/vector/vector/)
 
 **析构函数**  
 　``~vector();``销毁vector对象。  
